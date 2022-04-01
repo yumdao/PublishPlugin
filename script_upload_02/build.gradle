@@ -1,0 +1,87 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'maven-publish'
+}
+
+ext {
+    libGroup = "com.yumdao.daydayup"
+    libArtifactId = "demo01"
+    libVersion = "1.0.1"
+
+    mavenUrl = libVersion.endsWith("SNAPSHOT") ? "http://localhost:8081/repository/maven-snapshots/" : "http://localhost:8081/repository/maven-app/"
+    mavenAccount = "admin"
+    mavenPassword = "admin123"
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            //配置生成上传release节点的task
+            release(MavenPublication) {
+                from components.release
+
+                groupId = libGroup
+                artifactId = libArtifactId
+                version = libVersion
+            }
+
+            //如果有需要，可以配置上传debug版本，也可以只上传release版本
+            debug(MavenPublication) {
+                from components.debug
+                groupId = libGroup
+                artifactId = libArtifactId
+                version = libVersion
+            }
+        }
+
+        repositories {
+            maven {
+                url = mavenUrl
+                credentials {
+                    username = mavenAccount
+                    password = mavenPassword
+                }
+            }
+        }
+    }
+}
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}

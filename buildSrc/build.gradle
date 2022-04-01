@@ -1,0 +1,44 @@
+buildscript {
+
+    ext {
+        kotlin_version = "1.5.20"
+    }
+
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        mavenCentral { url "https://repo1.maven.org/maven2/" }
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:4.2.0"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+
+    allprojects {
+        repositories {
+            google()
+            jcenter()
+            mavenCentral()
+            mavenCentral { url "https://repo1.maven.org/maven2/" }
+        }
+    }
+}
+
+
+apply plugin: 'kotlin'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "com.android.tools.build:gradle:4.2.0"
+    compileOnly localGroovy()
+    compileOnly gradleApi()
+
+    implementation "kr.motd.maven:os-maven-plugin:1.6.0"
+}

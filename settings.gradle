@@ -1,0 +1,6 @@
+rootProject.name = "PublishPlugin"
+include ':app'
+include ':script_upload_01'
+include ':script_upload_02'
+include ':plugin_upload'
+include ':plugin_upload_test'
