@@ -32,6 +32,7 @@ publisher {
 
     //发布人
     publisher = "wangyumdao"
+    withSource = true
 }
 
 android {

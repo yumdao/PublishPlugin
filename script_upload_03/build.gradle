@@ -1,0 +1,54 @@
+plugins {
+    id 'java-library'
+    id 'kotlin'
+    id 'maven-publish'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+
+ext {
+    libGroup = "com.yumdao.daydayup"
+    libArtifactId = "demo03"
+    libVersion = "1.0.0"
+
+    mavenUrl = libVersion.endsWith("SNAPSHOT") ? "http://localhost:8081/repository/maven-snapshots/" : "http://localhost:8081/repository/maven-app/"
+    mavenAccount = "admin"
+    mavenPassword = "admin123"
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+    archiveClassifier = 'sources'
+}
+
+publishing {
+    publications {
+        //配置生成上传release节点的task
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourceJar
+
+            groupId = libGroup
+            artifactId = libArtifactId
+            version = libVersion
+        }
+    }
+
+    repositories {
+        maven {
+            url = mavenUrl
+            credentials {
+                username = mavenAccount
+                password = mavenPassword
+            }
+        }
+    }
+}

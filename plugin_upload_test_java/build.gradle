@@ -1,0 +1,41 @@
+plugins {
+    id 'java-library'
+    id 'kotlin'
+    id 'com.yumdao.daydayup'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+}
+
+
+publisher {
+    //配置release版本的仓库地址
+    repoRelease = "http://localhost:8081/repository/maven-app/"
+    //配置快照版本的仓库地址
+    repoSnapshot = "http://localhost:8081/repository/maven-snapshots/"
+    //账号
+    repoAccount = "admin"
+    //免密
+    repoPassword = "admin123"
+
+    //上报组件信息三件套
+    libGroup = "com.yumdao.test"
+    libArtifact = "daydayup-java"
+    libVersion = "1.0.0-SNAPSHOT"
+
+    //更新日志
+    libUpdateDesc = [
+            "1.发布新版本",
+    ]
+
+    //配置项目信息
+    pomName = "DayDayUp"
+    pomUrl = "http://daydayup.com"
+    pomDesc = "这仅仅是一个测试项目！"
+
+    //发布人
+    publisher = "wangyumdao"
+    withSource = true
+}

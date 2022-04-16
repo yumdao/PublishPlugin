@@ -29,4 +29,7 @@ open class Publisher {
 
     //发布人
     var publisher: String = ""
+
+    //是否携带源码发布到maven仓库
+    var withSource: Boolean = false
 }

@@ -7,12 +7,20 @@ plugins {
 ext {
     libGroup = "com.yumdao.daydayup"
     libArtifactId = "demo01"
-    libVersion = "1.0.1"
+    libVersion = "1.0.2"
 
     mavenUrl = libVersion.endsWith("SNAPSHOT") ? "http://localhost:8081/repository/maven-snapshots/" : "http://localhost:8081/repository/maven-app/"
     mavenAccount = "admin"
     mavenPassword = "admin123"
 }
+
+
+task androidSourceJar(type: Jar) {
+//    from project.android.sourceSets.main.java.sourceFiles //不包括Kotlin文件
+    from project.android.sourceSets.main.java.getSrcDirs() //包括Kotlin文件
+    archiveClassifier = 'sources'
+}
+
 
 afterEvaluate {
     publishing {
@@ -20,6 +28,7 @@ afterEvaluate {
             //配置生成上传release节点的task
             release(MavenPublication) {
                 from components.release
+                artifact androidSourceJar
 
                 groupId = libGroup
                 artifactId = libArtifactId
@@ -29,6 +38,8 @@ afterEvaluate {
             //如果有需要，可以配置上传debug版本，也可以只上传release版本
             debug(MavenPublication) {
                 from components.debug
+                artifact androidSourceJar
+
                 groupId = libGroup
                 artifactId = libArtifactId
                 version = libVersion
@@ -46,6 +57,7 @@ afterEvaluate {
         }
     }
 }
+
 
 android {
     compileSdk 31
@@ -85,3 +97,5 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
+
+
