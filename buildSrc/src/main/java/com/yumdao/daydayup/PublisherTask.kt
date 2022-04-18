@@ -188,8 +188,7 @@ open class PublisherTask : DefaultTask() {
                 )
             }
             val result = out.toString()
-            //TODO 上传maven仓库的判断逻辑还不准确 需要进行优化
-            if (result.contains("UP-TO-DATE")) {
+            if (result.contains("BUILD SUCCESSFUL")) {
                 //上传maven仓库成功，上报到服务器
                 val isSuccess = requestUploadVersion()
                 if (isSuccess) {
